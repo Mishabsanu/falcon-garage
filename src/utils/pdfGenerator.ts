@@ -1,3 +1,5 @@
+import { PDFDocument, StandardFonts } from "pdf-lib";
+
 export async function generateJobCardPDF(jobCard: any) {
   const pdfDoc = await PDFDocument.create();
 

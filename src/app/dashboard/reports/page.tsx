@@ -129,7 +129,7 @@ export default function ReportsPage() {
                           status === 'completed' || status === 'closed' ? 'bg-[#1bd488]' : 
                           status === 'in_progress' ? 'bg-[#055b65]' : 'bg-[#e0e5e9]'
                         }`}
-                        style={{ width: `${(count / Object.values(reportData.jobs).reduce((a: any, b: any) => a + b, 0)) * 100}%` }}
+                        style={{ width: `${(count / (Object.values(reportData.jobs) as number[]).reduce((a, b) => a + b, 0)) * 100}%` }}
                       ></div>
                    </div>
                 </div>
