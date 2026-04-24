@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X, Terminal } from "lucide-react";
+import { Menu, Wrench, X } from "lucide-react";
 import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
 
@@ -13,60 +13,60 @@ export default function DashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-[#fbfcfc] font-sans antialiased text-[#055b65] overflow-hidden">
-      {/* MOBILE OVERLAY */}
+    <div className="flex min-h-screen overflow-hidden bg-[#f7f4ef] font-sans antialiased text-[#263238]">
       {sidebarOpen && (
-        <div 
-          className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm lg:hidden transition-all duration-300"
+        <div
+          className="fixed inset-0 z-50 bg-[#263238]/55 backdrop-blur-sm lg:hidden"
           onClick={() => setSidebarOpen(false)}
         >
-          <div 
-            className="w-64 h-full bg-[#055b65] shadow-2xl transition-transform duration-300 transform translate-x-0"
+          <div
+            className="h-full w-[18rem] bg-[#263238] shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-             <div className="absolute top-5 right-5 lg:hidden">
-               <button onClick={() => setSidebarOpen(false)} className="p-2 text-[#1bd488] hover:text-white">
-                 <X size={20} />
-               </button>
-             </div>
-             <Sidebar />
+            <div className="absolute right-5 top-5 lg:hidden">
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className="p-2 text-[#f59e0b] transition-colors hover:text-white"
+                aria-label="Close navigation"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <Sidebar />
           </div>
         </div>
       )}
 
-      {/* DESKTOP SIDEBAR */}
       <div className="hidden lg:block shrink-0 shadow-sm z-50">
         <Sidebar />
       </div>
 
       <div className="flex flex-col flex-1 min-w-0 h-screen overflow-hidden">
-        {/* MOBILE HEADER */}
-        <div className="lg:hidden h-14 px-6 bg-white border-b border-[#e0e5e9] flex items-center justify-between sticky top-0 z-30 shadow-sm">
+        <div className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-[#d8dee6] bg-white/90 px-5 shadow-sm backdrop-blur lg:hidden">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-[#055b65] rounded-lg flex items-center justify-center">
-               <Terminal className="text-[#1bd488]" size={16} />
+            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-[#263238]">
+              <Wrench className="text-[#f59e0b]" size={17} />
             </div>
-            <span className="font-bold tracking-tight text-sm text-[#055b65] uppercase">Garage</span>
+            <span className="text-sm font-black uppercase tracking-tight text-[#263238]">Garage ERP</span>
           </div>
-          <button 
+          <button
             onClick={() => setSidebarOpen(true)}
-            className="p-2 rounded-lg text-[#055b65] hover:bg-slate-50 transition-colors"
+            className="rounded-md border border-[#d8dee6] bg-[#f7f4ef] p-2 text-[#263238] transition-colors hover:border-[#f59e0b]"
+            aria-label="Open navigation"
           >
             <Menu size={20} />
           </button>
         </div>
 
-        {/* DESKTOP HEADER */}
         <div className="hidden lg:block">
           <Header />
         </div>
 
-        {/* MAIN CONTENT AREA */}
-        <main className="flex-1 overflow-y-auto overflow-x-hidden p-6 md:p-8 lg:p-10 scroll-smooth">
-          <div className="max-w-[1440px] mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out">
+        <main className="garage-workspace flex-1 overflow-y-auto overflow-x-hidden p-5 scroll-smooth md:p-7 lg:p-8">
+          <div className="mx-auto max-w-[1500px] space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out">
             {children}
           </div>
-          <div className="h-10" />
+          <div className="h-8" />
         </main>
       </div>
     </div>

@@ -26,14 +26,28 @@ export async function POST(req: Request) {
     if (items) {
       jobCard.items = items;
     }
+
+    if (body.complaints) {
+      jobCard.complaints = body.complaints;
+    }
     
     await jobCard.save();
 
-    // Trigger notification if completed (Step 8)
-    if (status === "completed") {
+    // Trigger notification and sync quotations if completed/closed
+    if (status === "completed" || status === "closed") {
+      // 1. Update Linked Quotations
+      if (jobCard.quotationIds && jobCard.quotationIds.length > 0) {
+        const Quotation = (await import("@/models/Quotation")).default;
+        await Quotation.updateMany(
+          { _id: { $in: jobCard.quotationIds } },
+          { $set: { status: "closed" } }
+        );
+      }
+
+      // 2. Notification
       await Notification.create({
         title: "Repair Completed",
-        message: `Job Card #${jobCard.jobCardNumber} has been marked as COMPLETED. Ready for invoicing.`,
+        message: `Job Card #${jobCard.jobCardNumber} has been marked as ${status.toUpperCase()}. Ready for invoicing.`,
         type: "job_completed",
         referenceId: jobCard._id,
       });

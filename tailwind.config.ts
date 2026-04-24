@@ -7,27 +7,27 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#1bd488", // Vibrant Green
-          dark: "#055b65", // Dark Teal
-          light: "#b2c9c5", // Sage
+          DEFAULT: "#f59e0b", // Workshop amber
+          dark: "#263238", // Charcoal
+          light: "#94a3b8", // Cool steel
         },
         secondary: {
-          DEFAULT: "#45828b", // Muted Teal
-          dark: "#055b65",
-          light: "#e0e5e9", // Light Grey/Blue
+          DEFAULT: "#64748b", // Muted slate
+          dark: "#263238",
+          light: "#d8dee6", // Light steel
         },
-        accent: "#1bd488",
+        accent: "#f59e0b",
         sidebar: {
-          DEFAULT: "#055b65", // Dark Teal Sidebar
-          hover: "#45828b",
-          active: "#1bd488",
+          DEFAULT: "#263238", // Charcoal sidebar
+          hover: "#64748b",
+          active: "#f59e0b",
         },
-        background: "#fbfcfc", // Near White Background
+        background: "#f7f4ef", // Warm workshop background
         surface: "#FFFFFF",
-        border: "#e0e5e9",
+        border: "#d8dee6",
         text: {
-          main: "#055b65",
-          muted: "#45828b",
+          main: "#263238",
+          muted: "#64748b",
         }
       },
       borderRadius: {

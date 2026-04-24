@@ -44,7 +44,7 @@ const QuotationSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["draft", "approved", "rejected", "converted"],
+      enum: ["draft", "approved", "rejected", "converted", "billed_inspection", "closed"],
       default: "draft",
     },
   },

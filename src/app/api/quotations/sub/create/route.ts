@@ -21,10 +21,12 @@ export async function POST(req: Request) {
 
   await JobCard.findByIdAndUpdate(body.jobCardId, {
     $push: { quotationIds: subQuotation._id },
+    $set: { status: "waiting_approval" }
   });
 
   return NextResponse.json({
     success: true,
     data: subQuotation,
+    message: "Sub-Quotation generated. Job Card moved to WAITING_APPROVAL state."
   });
 }

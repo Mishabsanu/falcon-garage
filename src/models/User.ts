@@ -26,6 +26,14 @@ const UserSchema = new mongoose.Schema(
       ],
       default: "SERVICE_ADVISOR",
     },
+    baseSalary: {
+      type: Number,
+      default: 0,
+    },
+    totalAdvances: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true },
 );

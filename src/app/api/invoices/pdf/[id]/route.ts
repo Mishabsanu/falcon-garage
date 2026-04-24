@@ -51,37 +51,37 @@ export async function GET(
     invoice.items.forEach((item: any) => {
       page.drawText(item.name || "Unknown Item", { x: 55, y, size: 10, font: regularFont });
       page.drawText((item.qty || 0).toString(), { x: 350, y, size: 10, font: regularFont });
-      page.drawText(`Rs.${(item.price || 0).toLocaleString()}`, { x: 420, y, size: 10, font: regularFont });
+      page.drawText(`QAR ${(item.price || 0).toLocaleString()}`, { x: 420, y, size: 10, font: regularFont });
       
       const itemTotal = item.total || ((item.qty || 0) * (item.price || 0));
-      page.drawText(`Rs.${itemTotal.toLocaleString()}`, { x: 500, y, size: 10, font: regularFont });
+      page.drawText(`QAR ${itemTotal.toLocaleString()}`, { x: 500, y, size: 10, font: regularFont });
       y -= 20;
     });
-
+ 
     // Labor
     if (invoice.laborCost > 0) {
-      page.drawText("Labor/Service Charges", { x: 55, y, size: 10, font: regularFont });
-      page.drawText(`Rs.${invoice.laborCost.toLocaleString()}`, { x: 500, y, size: 10, font: regularFont });
+      page.drawText("Labor Service Protocol", { x: 55, y, size: 10, font: regularFont });
+      page.drawText(`QAR ${invoice.laborCost.toLocaleString()}`, { x: 500, y, size: 10, font: regularFont });
       y -= 30;
     }
-
+ 
     // Totals
     page.drawLine({ start: { x: 350, y }, end: { x: 550, y }, thickness: 1, color: rgb(0.5, 0.5, 0.5) });
     y -= 20;
-    page.drawText("Subtotal:", { x: 350, y, size: 10, font: regularFont });
-    page.drawText(`Rs.${(invoice.subtotal || 0).toLocaleString()}`, { x: 500, y, size: 10, font: regularFont });
+    page.drawText("Aggregate Valuation:", { x: 350, y, size: 10, font: regularFont });
+    page.drawText(`QAR ${(invoice.subtotal || 0).toLocaleString()}`, { x: 500, y, size: 10, font: regularFont });
     
     y -= 20;
-    page.drawText(`GST (${invoice.gstPercent || 0}%):`, { x: 350, y, size: 10, font: regularFont });
-    page.drawText(`Rs.${(invoice.gstAmount || 0).toLocaleString()}`, { x: 500, y, size: 10, font: regularFont });
-
+    page.drawText(`Service Tax (${invoice.gstPercent || 0}%):`, { x: 350, y, size: 10, font: regularFont });
+    page.drawText(`QAR ${(invoice.gstAmount || 0).toLocaleString()}`, { x: 500, y, size: 10, font: regularFont });
+ 
     y -= 20;
-    page.drawText(`Discount:`, { x: 350, y, size: 10, font: regularFont });
-    page.drawText(`-Rs.${(invoice.discount || 0).toLocaleString()}`, { x: 500, y, size: 10, font: regularFont });
-
+    page.drawText(`Settlement Rebate:`, { x: 350, y, size: 10, font: regularFont });
+    page.drawText(`-QAR ${(invoice.discount || 0).toLocaleString()}`, { x: 500, y, size: 10, font: regularFont });
+ 
     y -= 30;
-    page.drawText("GRAND TOTAL:", { x: 350, y, size: 14, font });
-    page.drawText(`Rs.${(invoice.grandTotal || 0).toLocaleString()}`, { x: 480, y, size: 14, font, color: rgb(0.1, 0.8, 0.5) });
+    page.drawText("GRAND FINAL:", { x: 350, y, size: 14, font });
+    page.drawText(`QAR ${(invoice.grandTotal || 0).toLocaleString()}`, { x: 480, y, size: 14, font, color: rgb(0.1, 0.8, 0.5) });
 
     // Footer
     page.drawText("Thank you for choosing GARAGE for your vehicle care.", { x: 180, y: 50, size: 8, font: regularFont, color: rgb(0.5, 0.5, 0.5) });

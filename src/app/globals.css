@@ -9,12 +9,196 @@
 }
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --garage-ink: #263238;
+  --garage-muted: #64748b;
+  --garage-line: #d8dee6;
+  --garage-bg: #f7f4ef;
+  --garage-accent: #f59e0b;
+  --garage-surface: #ffffff;
+  --garage-soft: #ede7dc;
+  --garage-danger: #e11d48;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: #fbfcfc;
+  color: var(--garage-ink);
+  background: var(--garage-bg);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+  letter-spacing: 0;
+}
+
+input,
+select,
+textarea {
+  min-width: 0;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: 760px;
+}
+
+thead tr {
+  background: color-mix(in srgb, var(--garage-line) 28%, transparent);
+  color: color-mix(in srgb, var(--garage-muted) 72%, transparent);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+th {
+  padding: 16px 24px;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+td {
+  padding: 18px 24px;
+  vertical-align: middle;
+}
+
+tbody {
+  color: var(--garage-ink);
+}
+
+tbody tr {
+  transition: background-color .2s ease, box-shadow .2s ease;
+}
+
+tbody tr:hover {
+  background: color-mix(in srgb, var(--garage-accent) 8%, transparent);
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 13px;
+  }
+
+  th,
+  td {
+    padding: 14px 16px;
+  }
+}
+
+.dashboard-surface {
+  background: var(--garage-surface);
+  border: 1px solid var(--garage-line);
+  border-radius: 8px;
+  box-shadow: 0 18px 45px rgba(38, 50, 56, .07);
+}
+
+.dashboard-control {
+  width: 100%;
+  border: 1px solid var(--garage-line);
+  background: var(--garage-bg);
+  border-radius: 6px;
+  color: var(--garage-ink);
+  font-size: 13px;
+  font-weight: 700;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+.dashboard-control:focus {
+  border-color: color-mix(in srgb, var(--garage-accent) 55%, transparent);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, .12);
+}
+
+.dashboard-control::placeholder {
+  color: color-mix(in srgb, var(--garage-muted) 45%, transparent);
+}
+
+div[class*="fixed"][class*="z-[60]"] {
+  align-items: flex-start;
+  overflow-y: auto;
+}
+
+div[class*="fixed"][class*="z-[60]"] > div[class*="relative"][class*="z-10"] {
+  width: min(1120px, calc(100vw - 32px));
+  max-width: min(1120px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  margin-block: 16px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.rounded-full,
+[class*="rounded-xl"],
+[class*="rounded-2xl"],
+[class*="rounded-3xl"],
+[class*="rounded-[1.25rem]"],
+[class*="rounded-[1.5rem]"],
+[class*="rounded-[2rem]"],
+[class*="rounded-[2.5rem]"],
+[class*="rounded-[3rem]"] {
+  border-radius: 8px !important;
+}
+
+input,
+select,
+textarea,
+button {
+  border-radius: 6px;
+}
+
+div[class*="fixed"][class*="z-[60]"] form {
+  overflow-y: auto;
+  padding: 28px;
+}
+
+div[class*="fixed"][class*="z-[60]"] form > .grid,
+div[class*="fixed"][class*="z-[60]"] form .grid.grid-cols-2,
+div[class*="fixed"][class*="z-[60]"] form .grid.grid-cols-3,
+div[class*="fixed"][class*="z-[60]"] form .grid.grid-cols-4 {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+div[class*="fixed"][class*="z-[60]"] input,
+div[class*="fixed"][class*="z-[60]"] select,
+div[class*="fixed"][class*="z-[60]"] textarea {
+  width: 100%;
+}
+
+div[class*="fixed"][class*="z-[60]"] label {
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.garage-workspace {
+  background:
+    linear-gradient(rgba(38, 50, 56, .035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(38, 50, 56, .035) 1px, transparent 1px),
+    radial-gradient(circle at top right, rgba(245, 158, 11, .13), transparent 34rem),
+    var(--garage-bg);
+  background-size: 32px 32px, 32px 32px, auto, auto;
+}
+
+.animate-spin {
+  border-radius: 999px !important;
+}
+
+@media (max-width: 640px) {
+  div[class*="fixed"][class*="z-[60]"] > div[class*="relative"][class*="z-10"] {
+    width: calc(100vw - 16px);
+    max-width: calc(100vw - 16px);
+    max-height: calc(100vh - 16px);
+    margin-block: 8px;
+    border-radius: 8px;
+  }
+
+  div[class*="fixed"][class*="z-[60]"] form {
+    padding: 20px;
+  }
 }

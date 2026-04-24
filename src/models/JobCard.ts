@@ -43,7 +43,7 @@ const JobCardSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["open", "assigned", "in_progress", "completed", "closed"],
+      enum: ["open", "assigned", "in_progress", "waiting_approval", "completed", "closed"],
       default: "open",
     },
 

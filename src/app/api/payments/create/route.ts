@@ -9,34 +9,41 @@ export async function POST(req: Request) {
     const user: any = await authMiddleware();
     await connectDB();
 
-    const { invoiceId, amount, method, note } = await req.json();
-
+    const { invoiceId, amount, method, note, discount } = await req.json();
+ 
     const invoice = await Invoice.findById(invoiceId);
     if (!invoice) {
       return NextResponse.json({ success: false, message: "Billing node not found" }, { status: 404 });
     }
+ 
+    // 1. Update Invoice Discount if provided
+    if (discount && discount > 0) {
+      invoice.discount = (invoice.discount || 0) + discount;
+      // Recalculate Grand Total: (Subtotal + Tax) - New Total Discount
+      invoice.grandTotal = (invoice.subtotal + invoice.gstAmount) - invoice.discount;
+    }
 
-    // 1. Create Payment Record
+    // 2. Create Payment Record
     const payment = await Payment.create({
       invoiceId,
       amount,
-      method,
-      note,
+      method: method || "cash",
+      note: note || (discount ? `Rebate of QAR ${discount} applied.` : ""),
       paidAt: new Date()
     });
-
-    // 2. Update Invoice Balance
+ 
+    // 3. Update Invoice Balance
     invoice.paidAmount += amount;
     invoice.balanceAmount = invoice.grandTotal - invoice.paidAmount;
-
-    // 3. Update Status
+ 
+    // 4. Update Status
     if (invoice.balanceAmount <= 0) {
       invoice.status = "paid";
       invoice.balanceAmount = 0;
     } else if (invoice.paidAmount > 0) {
       invoice.status = "partial";
     }
-
+ 
     await invoice.save();
 
     return NextResponse.json({

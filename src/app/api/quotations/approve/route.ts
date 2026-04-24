@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   await connectDB();
 
-  const user: any = await authMiddleware();
+  const user = await authMiddleware() as { role: string };
 
   roleGuard(user.role, ["ADMIN", "SERVICE_ADVISOR"]);
 

@@ -15,8 +15,14 @@ import {
   Gauge,
   Clock,
   Layers,
-  ArrowUpRight
+  ArrowUpRight,
+  ShieldCheck,
+  ChevronRight,
+  Box,
+  Target
 } from "lucide-react";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import Link from "next/link";
 
 export default function DashboardPage() {
   const [data, setData] = useState<any>(null);
@@ -24,243 +30,225 @@ export default function DashboardPage() {
   useEffect(() => {
     fetch("/api/dashboard/overview")
       .then((res) => res.json())
-      .then((res) => setData(res.data));
+      .then((res) => {
+        if (res.success) setData(res.data);
+      });
   }, []);
 
-  if (!data) return (
-    <div className="flex items-center justify-center h-[60vh]">
-      <div className="relative">
-        <div className="w-12 h-12 border-4 border-[#1bd488]/10 border-t-[#1bd488] rounded-full animate-spin"></div>
-        <div className="absolute inset-0 flex items-center justify-center">
-           <Zap size={16} className="text-[#1bd488] animate-pulse" />
-        </div>
-      </div>
-    </div>
-  );
+  if (!data) return <LoadingSpinner label="Decoding Garage Telemetry..." />;
 
   const stats = [
     { 
       title: "Daily Revenue", 
-      value: `₹${data.todayRevenue.toLocaleString()}`, 
+      value: `QAR ${data.todayRevenue.toLocaleString()}`, 
       icon: Wallet, 
-      color: "text-[#1bd488]", 
-      bg: "bg-[#1bd488]/5",
-      shadow: "shadow-[#1bd488]/10",
-      trend: "+12.5%", 
+      color: "text-emerald-500", 
+      bg: "bg-emerald-500/10",
+      trend: "Peak Hours", 
       trendUp: true 
     },
     { 
       title: "Active Orders", 
       value: data.activeJobs, 
-      icon: ClipboardList, 
-      color: "text-[#055b65]", 
-      bg: "bg-[#055b65]/5",
-      shadow: "shadow-[#055b65]/10",
-      trend: "4 pending", 
+      icon: Layers, 
+      color: "text-[#263238]", 
+      bg: "bg-[#263238]/5",
+      trend: `${data.activeJobs} Units In-Bay`, 
       trendUp: true 
-    },
-    { 
-      title: "Balance Due", 
-      value: `₹${data.pendingPayments.toLocaleString()}`, 
-      icon: TrendingDown, 
-      color: "text-[#45828b]", 
-      bg: "bg-[#45828b]/5",
-      shadow: "shadow-[#45828b]/10",
-      trend: "-3.2%", 
-      trendUp: false 
     },
     { 
       title: "Stock Alert", 
       value: data.lowStockParts, 
       icon: AlertTriangle, 
       color: "text-rose-500", 
-      bg: "bg-rose-500/5",
-      shadow: "shadow-rose-500/10",
-      trend: "Urgent", 
+      bg: "bg-rose-500/10",
+      trend: "Procurement Req", 
       trendUp: false 
+    },
+    { 
+      title: "Period Revenue", 
+      value: `QAR ${data.monthRevenue.toLocaleString()}`, 
+      icon: Target, 
+      color: "text-amber-500", 
+      bg: "bg-amber-500/10",
+      trend: "Month-to-Date", 
+      trendUp: true 
     },
   ];
 
   return (
-    <div className="space-y-12">
-      {/* HEADER SECTION - Enhanced Style */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-[#e0e5e9] rounded-full shadow-sm">
-             <div className="w-1.5 h-1.5 bg-[#1bd488] rounded-full animate-pulse shadow-[0_0_8px_#1bd488]"></div>
-             <span className="text-[10px] font-bold text-[#055b65] uppercase tracking-widest">Garage Telemetry</span>
+    <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out pb-20">
+      {/* HEADER SECTION */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-10">
+        <div className="space-y-3">
+          <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-white border border-[#d8dee6] rounded-md shadow-sm">
+             <div className="w-2 h-2 bg-[#f59e0b] rounded-full animate-pulse"></div>
+             <span className="text-[10px] font-black text-[#263238] uppercase tracking-[0.2em]">Active Control Node</span>
           </div>
-          <h1 className="text-3xl font-extrabold text-[#055b65] tracking-tight">Garage Overview</h1>
-          <p className="text-[#45828b]/70 text-sm font-medium">Real-time performance monitoring across all service units.</p>
+          <h1 className="text-4xl font-black text-[#263238] tracking-tight uppercase italic">
+            Garage <span className="text-[#f59e0b]">Intelligence</span> Hub
+          </h1>
+          <p className="text-[#64748b] text-sm font-medium tracking-tight">Real-time status monitor and operational telemetry across all service bays.</p>
         </div>
         
-        <div className="flex items-center gap-4 p-1.5 bg-white rounded-2xl shadow-[0_10px_40px_rgba(5,91,101,0.06)] border border-[#e0e5e9] pr-8">
-           <div className="flex -space-x-3 ml-2">
-             {[1, 2, 3].map((i) => (
-               <div key={i} className="w-10 h-10 rounded-2xl border-4 border-white bg-[#b2c9c5] flex items-center justify-center text-[10px] font-bold text-[#055b65]">
-                 T{i}
-               </div>
-             ))}
+        <div className="flex items-center gap-6 p-6 bg-[#263238] rounded-md shadow-2xl">
+           <div className="space-y-1">
+              <p className="text-[9px] font-black text-[#f59e0b] uppercase tracking-widest">Inventory Valuation</p>
+              <p className="text-2xl font-black text-white italic tracking-tighter">QAR {data.inventoryValuation.toLocaleString()}</p>
            </div>
-           <div className="h-8 w-px bg-[#e0e5e9]"></div>
-           <div className="flex flex-col">
-              <p className="text-xs font-bold text-[#055b65]">Live Workforce</p>
-              <p className="text-[10px] font-semibold text-[#1bd488] uppercase tracking-tight">Active Now</p>
+           <div className="h-10 w-px bg-white/10"></div>
+           <div className="flex flex-col items-center">
+              <Activity size={24} className="text-emerald-500" />
+              <p className="text-[8px] font-black text-white/40 uppercase mt-1">Live Feed</p>
            </div>
         </div>
       </div>
 
-      {/* STATS GRID - Glass & Glow */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {/* PRIMARY STATS GRID */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, i) => (
-          <div key={i} className={`group bg-white rounded-[2rem] p-7 border border-[#e0e5e9] hover:border-[#1bd488]/40 transition-all duration-500 shadow-sm hover:shadow-2xl ${stat.shadow} relative overflow-hidden`}>
-            <div className="flex justify-between items-start mb-8 relative z-10">
-              <div className={`p-3.5 rounded-2xl ${stat.bg} ${stat.color} shadow-inner`}>
-                <stat.icon size={22} strokeWidth={2.5} />
+          <div key={i} className="group bg-white p-8 border border-[#d8dee6] rounded-md shadow-sm hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
+            <div className="flex justify-between items-start mb-8">
+              <div className={`p-4 rounded-md ${stat.bg} ${stat.color}`}>
+                <stat.icon size={24} />
               </div>
-              <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-bold ${
-                stat.trendUp ? "bg-[#1bd488]/10 text-[#1bd488]" : "bg-rose-50 text-rose-500"
-              }`}>
-                {stat.trendUp ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+              <div className={`text-[10px] font-black uppercase tracking-widest ${stat.trendUp ? 'text-emerald-500' : 'text-rose-500'}`}>
                 {stat.trend}
               </div>
             </div>
-            <div className="relative z-10 space-y-1">
-              <p className="text-[#45828b]/50 text-[10px] font-bold uppercase tracking-widest">{stat.title}</p>
-              <p className="text-3xl font-extrabold text-[#055b65] tracking-tight">
-                {stat.value}
-              </p>
+            <div className="space-y-1">
+              <p className="text-[#64748b] text-[10px] font-black uppercase tracking-widest opacity-40">{stat.title}</p>
+              <p className="text-3xl font-black text-[#263238] italic tracking-tighter">{stat.value}</p>
             </div>
-            {/* GLOW DECOR */}
-            <div className={`absolute -right-4 -bottom-4 opacity-0 group-hover:opacity-[0.05] transition-all duration-700 pointer-events-none ${stat.color}`}>
-              <stat.icon size={120} strokeWidth={1} />
+            <div className="absolute -right-2 -bottom-2 opacity-5 scale-150 group-hover:scale-125 transition-transform duration-700">
+               <stat.icon size={100} />
             </div>
           </div>
         ))}
       </div>
 
-      {/* DETAILED CONTENT */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        {/* RECENT JOBS - Clean Industrial */}
-        <div className="lg:col-span-2 bg-white rounded-[2.5rem] border border-[#e0e5e9] shadow-[0_20px_50px_rgba(5,91,101,0.04)] overflow-hidden flex flex-col">
-          <div className="px-8 py-6 border-b border-[#e0e5e9]/50 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-               <div className="w-11 h-11 bg-[#055b65] rounded-2xl flex items-center justify-center text-[#1bd488] shadow-lg shadow-[#055b65]/20">
-                  <Layers size={22} />
-               </div>
-               <div>
-                  <h3 className="text-lg font-extrabold text-[#055b65] tracking-tight">Active Service Queue</h3>
-                  <p className="text-[10px] text-[#45828b]/50 font-bold uppercase tracking-widest">Real-time status monitor</p>
-               </div>
-            </div>
-            <button className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#fbfcfc] border border-[#e0e5e9] text-[11px] font-bold text-[#055b65] hover:bg-white hover:shadow-md transition-all">
-              Manage Orders <ArrowUpRight size={16} className="text-[#1bd488]" />
-            </button>
-          </div>
-          <div className="overflow-x-auto flex-1">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="bg-[#e0e5e9]/20 text-[#45828b]/60 text-[9px] font-bold uppercase tracking-[0.25em]">
-                  <th className="px-8 py-5">Reference</th>
-                  <th className="px-8 py-5">Asset Class</th>
-                  <th className="px-8 py-5">Current State</th>
-                  <th className="px-8 py-5">Personnel</th>
-                  <th className="px-8 py-5 text-right">Activity</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#e0e5e9]/30">
-                {data.recentJobs.map((job: any) => (
-                  <tr key={job._id} className="hover:bg-[#1bd488]/5 transition-colors group cursor-pointer">
-                    <td className="px-8 py-6">
-                       <span className="text-sm font-bold text-[#055b65]">#{job.jobCardNumber}</span>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="space-y-0.5">
-                         <p className="text-sm font-bold text-[#45828b]">{job.vehicleModel}</p>
-                         <p className="text-[10px] font-bold text-[#b2c9c5] uppercase tracking-tighter">{job.vehicleNumber}</p>
-                      </div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className={`inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest border transition-all duration-300 ${
-                        job.status === 'completed' ? 'bg-[#1bd488]/10 text-[#1bd488] border-[#1bd488]/20 group-hover:bg-[#1bd488] group-hover:text-white' : 
-                        job.status === 'in_progress' ? 'bg-[#45828b]/10 text-[#45828b] border-[#45828b]/20' : 'bg-[#e0e5e9]/30 text-[#45828b]/50 border-[#e0e5e9]/60'
-                      }`}>
-                        <div className={`w-1.5 h-1.5 rounded-full ${
-                          job.status === 'completed' ? 'bg-[#1bd488] shadow-[0_0_8px_#1bd488] group-hover:bg-white' : 
-                          job.status === 'in_progress' ? 'bg-[#45828b] animate-pulse' : 'bg-[#b2c9c5]'
-                        }`}></div>
-                        {job.status}
-                      </div>
-                    </td>
-                    <td className="px-8 py-6">
-                       <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-xl bg-[#055b65] flex items-center justify-center text-white text-[10px] font-bold">
-                             {job.technicians?.[0]?.name?.charAt(0) || '?'}
-                          </div>
-                          <span className="text-xs font-semibold text-[#45828b]">
-                            {job.technicians?.[0]?.name || 'Pending'}
-                          </span>
-                       </div>
-                    </td>
-                    <td className="px-8 py-6 text-right">
-                       <p className="text-xs font-bold text-[#055b65]">{new Date(job.createdAt).toLocaleDateString()}</p>
-                       <p className="text-[9px] text-[#45828b]/40 font-bold mt-1.5 uppercase tracking-tighter italic">Processed</p>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        {/* SERVICE QUEUE MONITOR */}
+        <div className="lg:col-span-2 bg-white rounded-md border border-[#d8dee6] shadow-sm overflow-hidden flex flex-col">
+           <div className="px-10 py-8 border-b border-[#d8dee6] flex items-center justify-between bg-[#f8fafc]">
+              <div className="flex items-center gap-4">
+                 <div className="w-12 h-12 bg-[#263238] rounded-md flex items-center justify-center text-[#f59e0b] shadow-xl shadow-[#263238]/20">
+                    <Layers size={24} />
+                 </div>
+                 <div>
+                    <h3 className="text-xl font-black text-[#263238] uppercase italic">Active Service Queue</h3>
+                    <p className="text-[10px] text-[#64748b] font-bold uppercase tracking-[0.3em] mt-1">Real-time status monitor</p>
+                 </div>
+              </div>
+              <Link href="/dashboard/jobcards" className="flex items-center gap-2 text-[10px] font-black uppercase text-[#f59e0b] hover:text-[#263238] transition-colors tracking-widest">
+                 Full Dispatch Board <ArrowRight size={14} />
+              </Link>
+           </div>
+           
+           <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                 <thead>
+                    <tr className="border-b border-[#d8dee6] text-[10px] font-black uppercase tracking-widest text-[#64748b]">
+                       <th className="px-10 py-5">REF #</th>
+                       <th className="px-10 py-5">Asset Information</th>
+                       <th className="px-10 py-5">Workflow State</th>
+                       <th className="px-10 py-5">Personnel</th>
+                    </tr>
+                 </thead>
+                 <tbody className="divide-y divide-[#d8dee6]/50">
+                    {data.recentJobs.map((job: any) => (
+                       <tr key={job._id} className="hover:bg-[#f8fafc] transition-all group">
+                          <td className="px-10 py-6">
+                             <span className="text-sm font-black text-[#263238]">#{job.jobCardNumber}</span>
+                          </td>
+                          <td className="px-10 py-6">
+                             <p className="text-sm font-black text-[#263238] uppercase">{job.vehicleModel}</p>
+                             <p className="text-[10px] font-bold text-[#64748b] uppercase tracking-widest mt-1">{job.vehicleNumber}</p>
+                          </td>
+                          <td className="px-10 py-6">
+                             <div className={`inline-flex items-center gap-2 px-3 py-1 rounded text-[9px] font-black uppercase tracking-widest ${
+                                job.status === 'completed' ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' :
+                                job.status === 'in_progress' ? 'bg-amber-500 text-white' : 'bg-[#64748b] text-white'
+                             }`}>
+                                <div className={`h-1 w-1 rounded-full bg-white ${job.status === 'in_progress' ? 'animate-ping' : ''}`}></div>
+                                {job.status?.replace('_', ' ')}
+                             </div>
+                          </td>
+                          <td className="px-10 py-6">
+                             <div className="flex items-center gap-3">
+                                <div className="h-8 w-8 bg-[#263238] rounded flex items-center justify-center text-[10px] font-black text-white uppercase">
+                                   {job.technicians?.[0]?.name?.charAt(0) || '?'}
+                                </div>
+                                <span className="text-[11px] font-black text-[#263238] uppercase">{job.technicians?.[0]?.name || 'Unassigned'}</span>
+                             </div>
+                          </td>
+                       </tr>
+                    ))}
+                 </tbody>
+              </table>
+           </div>
         </div>
 
-        {/* WORKLOAD PANEL - Gradient & Depth */}
-        <div className="bg-[#055b65] rounded-[2.5rem] p-10 flex flex-col relative overflow-hidden shadow-2xl shadow-[#055b65]/20">
-          <div className="flex items-center justify-between mb-12 relative z-10">
-             <h3 className="text-xl font-bold text-white tracking-tight italic">Workforce Capacity</h3>
-             <BarChart3 size={24} className="text-[#1bd488]" />
-          </div>
-          
-          <div className="space-y-10 flex-1 relative z-10">
-            {data.technicianSummary.map((tech: any, i: number) => (
-              <div key={i} className="space-y-4 group">
-                <div className="flex justify-between items-end px-1">
-                  <div className="flex items-center gap-4">
-                    <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center font-bold text-white/50 group-hover:border-[#1bd488] group-hover:text-[#1bd488] transition-all">
-                       {tech.name.charAt(0)}
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-white group-hover:text-[#1bd488] transition-colors">{tech.name}</p>
-                      <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest leading-none mt-1">{tech.active} Orders Active</p>
-                    </div>
-                  </div>
-                  <p className="text-xs font-bold text-[#1bd488] italic">{Math.round((tech.active / (tech.assigned || 1)) * 100)}%</p>
-                </div>
-                <div className="h-2 w-full bg-black/20 rounded-full overflow-hidden p-[2px] border border-white/5">
-                  <div 
-                    className="h-full bg-gradient-to-r from-[#1bd488]/40 to-[#1bd488] rounded-full transition-all duration-1000 ease-out shadow-[0_0_15px_#1bd488]" 
-                    style={{ width: `${Math.min(100, (tech.active / (tech.assigned || 1)) * 100)}%` }}
-                  ></div>
-                </div>
+        {/* WORKLOAD & CAPACITY PANEL */}
+        <div className="space-y-8">
+           <div className="bg-[#263238] rounded-md p-10 shadow-2xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-8 opacity-5">
+                 <Users size={120} />
               </div>
-            ))}
-          </div>
-          
-          <div className="mt-14 p-8 bg-white rounded-[2rem] relative overflow-hidden group shadow-2xl">
-            <div className="relative z-10 space-y-2">
-              <p className="text-[10px] text-[#45828b] font-bold uppercase tracking-[0.2em]">Efficiency Goal</p>
-              <div className="flex items-baseline gap-2 mb-8">
-                <p className="text-5xl font-extrabold text-[#055b65] tracking-tighter italic leading-none">98.4</p>
-                <div className="px-2 py-0.5 bg-[#1bd488] text-white rounded text-[8px] font-bold uppercase italic tracking-tighter">Peak</div>
+              <div className="relative z-10 space-y-10">
+                 <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-black text-white uppercase italic tracking-tighter">Workforce Loading</h3>
+                    <BarChart3 size={20} className="text-[#f59e0b]" />
+                 </div>
+
+                 <div className="space-y-8">
+                    {data.technicianSummary.map((tech: any, idx: number) => (
+                       <div key={idx} className="space-y-3">
+                          <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-white/60">
+                             <span>{tech.name}</span>
+                             <span className="text-[#f59e0b]">{tech.active} Orders</span>
+                          </div>
+                          <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                             <div 
+                               className="h-full bg-[#f59e0b] shadow-[0_0_10px_#f59e0b] transition-all duration-1000 ease-out" 
+                               style={{ width: `${Math.min(100, (tech.active / 5) * 100)}%` }}
+                             ></div>
+                          </div>
+                       </div>
+                    ))}
+                 </div>
+
+                 <div className="pt-6 border-t border-white/10 space-y-6">
+                    <div className="flex items-center justify-between">
+                       <div>
+                          <p className="text-[9px] font-black text-white/30 uppercase tracking-widest">Efficiency Goal</p>
+                          <p className="text-3xl font-black text-white italic">{data.performanceMetric}%</p>
+                       </div>
+                       <Gauge size={32} className="text-emerald-500" />
+                    </div>
+                    <button className="w-full py-4 bg-white text-[#263238] rounded-md text-[10px] font-black uppercase tracking-[0.3em] hover:bg-[#f59e0b] transition-all">
+                       Optimize Queue
+                    </button>
+                 </div>
               </div>
-              <button className="w-full bg-[#055b65] text-white py-4 rounded-2xl font-bold text-xs hover:bg-[#45828b] hover:shadow-xl transition-all flex items-center justify-center gap-3">
-                 System Diagnostics <Zap size={16} fill="currentColor" className="text-[#1bd488]" />
-              </button>
-            </div>
-            <Activity size={120} className="absolute -right-8 -bottom-8 opacity-5 group-hover:opacity-10 transition-all duration-700 pointer-events-none text-[#055b65]" />
-          </div>
-          
-          {/* BG GLOW */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#1bd488]/10 blur-[80px] pointer-events-none"></div>
+           </div>
+
+           <div className="bg-white border border-[#d8dee6] p-8 rounded-md space-y-6 shadow-sm">
+              <div className="flex items-center gap-3">
+                 <ShieldCheck className="text-[#f59e0b]" size={20} />
+                 <h4 className="text-[11px] font-black uppercase text-[#263238] tracking-widest">System Integrity</h4>
+              </div>
+              <div className="space-y-4">
+                 <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold text-[#64748b] uppercase">DB Nodes</span>
+                    <span className="text-[10px] font-black text-emerald-500 uppercase">Synchronized</span>
+                 </div>
+                 <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold text-[#64748b] uppercase">API Gateway</span>
+                    <span className="text-[10px] font-black text-emerald-500 uppercase">Operational</span>
+                 </div>
+              </div>
+           </div>
         </div>
       </div>
     </div>

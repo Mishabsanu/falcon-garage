@@ -16,9 +16,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, message: "Order node not found" }, { status: 404 });
     }
 
-    jobCard.technicians = [technicianId];
-    jobCard.status = "assigned";
-    await jobCard.save();
+    // Use $addToSet to prevent duplicates but allow multiple specialists
+    await JobCard.findByIdAndUpdate(jobCardId, {
+      $addToSet: { technicians: technicianId },
+      $set: { status: "assigned" }
+    });
 
     // Create Notification for technician (Trigger Step 6)
     await Notification.create({
