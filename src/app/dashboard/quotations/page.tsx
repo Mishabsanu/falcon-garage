@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import ListPagination from "@/components/ui/ListPagination";
 import ListToolbar from "@/components/ui/ListToolbar";
 import usePaginatedData from "@/hooks/usePaginatedData";
+import { useRouter } from "next/navigation";
 
 const statusFilters = ["all", "draft", "approved", "converted", "rejected"];
 
@@ -45,6 +46,7 @@ function getErrorMessage(error: unknown, fallback: string) {
 }
 
 export default function QuotationsPage() {
+  const router = useRouter();
   const [quotations, setQuotations] = useState<QuotationListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -292,7 +294,7 @@ export default function QuotationsPage() {
                         }`}
                       >
                         {quote.status === "approved" ? <CheckCircle2 size={10} /> : quote.status === "draft" ? <Clock size={10} /> : quote.status === "billed_inspection" ? <CheckCircle2 size={10} /> : <XCircle size={10} />}
-                        {quote.status.replace("_", " ")}
+                        {(quote.status || "draft").replace("_", " ")}
                       </span>
                     </td>
                     <td className="text-right">
