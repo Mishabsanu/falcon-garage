@@ -213,6 +213,7 @@ export default function SalarySlipPage({ params }: { params: Promise<{ id: strin
                  <p className="text-[10px] font-black uppercase tracking-widest text-[#263238]">Authorized Signatory</p>
                  <p className="text-[9px] font-bold text-[#64748b] mt-1">Falcon Garage Finance Node</p>
               </div>
+           </div>
         </div>
 
         {/* Footer Disclaimer */}
