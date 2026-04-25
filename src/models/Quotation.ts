@@ -47,6 +47,12 @@ const QuotationSchema = new mongoose.Schema(
       enum: ["draft", "approved", "rejected", "converted", "billed_inspection", "closed"],
       default: "draft",
     },
+
+    linkedInvoiceId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Invoice",
+      default: null,
+    },
   },
   { timestamps: true },
 );

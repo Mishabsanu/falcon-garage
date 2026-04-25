@@ -287,6 +287,15 @@ export default function JobCardDetailPage({ params }: { params: Promise<{ id: st
                      Finalize & Bill Cycle <Wallet size={18} className="text-[#f59e0b]" />
                   </button>
                )}
+               <button
+                  type="button"
+                  onClick={() => window.open(`/api/jobcards/pdf/${id}`, "_blank")}
+                  className="p-4 border border-[#d8dee6] bg-white text-[#263238] rounded-md hover:bg-gray-50 transition-all shadow-sm flex items-center gap-2"
+                  title="Export Job Card PDF"
+               >
+                  <Download size={20} />
+                  <span className="text-[10px] font-bold uppercase tracking-widest">PDF</span>
+               </button>
             </div>
          </div>
 

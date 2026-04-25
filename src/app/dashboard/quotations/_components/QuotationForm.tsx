@@ -203,160 +203,160 @@ export default function QuotationForm({
     const selectedVehicle = vehicles.find(v => v._id === quote.vehicleId);
 
     return (
-      <div className="w-full max-w-4xl mx-auto space-y-6 animate-in fade-in duration-500">
+      <div className="w-full max-w-4xl mx-auto space-y-6 animate-in fade-in duration-500 pb-20">
         {/* Preview Actions */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-white p-4 rounded-lg shadow-md border border-slate-200">
           <button onClick={() => setShowPreview(false)} className="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-slate-900 px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-md transition-colors w-full sm:w-auto justify-center">
-            <ArrowLeft size={16} /> Back to Edit Form
+            <ArrowLeft size={16} /> Edit Details
           </button>
-          <button onClick={() => handleSubmit()} disabled={saving} className="flex items-center gap-2 text-sm font-bold text-white bg-amber-600 hover:bg-amber-700 px-8 py-2 rounded-md transition-all shadow-sm w-full sm:w-auto justify-center disabled:opacity-70">
-            {saving ? "Saving..." : "Confirm & Save Quotation"} <ArrowRight size={16} />
-          </button>
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <button onClick={() => handleSubmit()} disabled={saving} className="flex-1 sm:flex-none flex items-center gap-2 text-sm font-bold text-slate-900 bg-amber-500 hover:bg-amber-600 px-8 py-2 rounded-md transition-all shadow-sm justify-center disabled:opacity-70">
+              {saving ? "Processing..." : "Confirm & Save"} <ArrowRight size={16} />
+            </button>
+          </div>
         </div>
 
-        {/* A4 Paper PDF Preview */}
-        <div className="bg-white p-12 shadow-2xl border border-slate-200 min-h-[1056px] max-w-[816px] mx-auto text-slate-800 relative">
+        {/* A4 Digital Replica */}
+        <div className="bg-white shadow-2xl border border-slate-200 min-h-[1056px] w-full max-w-[816px] mx-auto text-slate-800 relative overflow-hidden font-sans">
+          
+          {/* Top Brand Bars */}
+          <div className="h-4 bg-slate-800 w-full" />
+          <div className="h-1.5 bg-amber-500 w-full" />
 
-          {/* Document Header */}
-          <div className="flex justify-between items-start mb-8">
-            <div className="flex items-center gap-6">
-              <img src="/logo.jpeg" alt="Falcon Garage Logo" className="h-24 w-auto object-contain rounded-md" />
-              <div>
-                <h1 className="text-3xl font-black tracking-tighter text-slate-900 uppercase">FALCON GARAGE</h1>
-                <p className="text-[10px] text-slate-500 font-bold tracking-widest uppercase mt-1">Vehicle Maintenance & Repair</p>
+          <div className="p-12">
+            {/* Header Section */}
+            <div className="flex justify-between items-start mb-12">
+              <div className="pt-4">
+                <img src="/logo-1.png" alt="Logo" className="h-16 w-auto object-contain opacity-90" />
+              </div>
+              <div className="text-right">
+                <h1 className="text-xl font-black text-slate-800 tracking-tight leading-none mb-1">FALCON PLUS GARAGE W.L.L</h1>
+                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Industrial Area, Street 24, Doha - Qatar</p>
+                <p className="text-[10px] text-slate-400 font-medium mt-1">VAT ID: 300012345600003 | CR No: 210580</p>
+                <p className="text-[10px] text-slate-400 font-medium">Mob: +974 7072 7121 | Tel: +974 3074 0770</p>
               </div>
             </div>
-            <div className="text-right">
-              <h2 className="text-4xl font-light text-amber-500 uppercase tracking-widest">{mode === 'edit' ? 'Quotation' : 'Estimate'}</h2>
-              <div className="mt-2 text-sm text-slate-500">
-                <span className="font-bold text-slate-800">Date:</span> {new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
-              </div>
-              <div className="text-sm text-slate-500 mt-1">
-                <span className="font-bold text-slate-800">Ref No:</span> {quotationId ? quotationId.slice(-6).toUpperCase() : 'DRAFT-XXXX'}
-              </div>
+
+            <div className="mb-12">
+              <h2 className="text-3xl font-black text-slate-800 tracking-tighter mb-1 uppercase">Service Quotation</h2>
+              <div className="h-1 w-16 bg-amber-500 rounded-full" />
             </div>
-          </div>
 
-          {/* Company Info Bar */}
-          <div className="bg-slate-50 border-y border-slate-200 py-3 px-4 mb-8 flex justify-between text-xs text-slate-600">
-            <span>📍 123 Industrial Auto Park, Dubai, UAE</span>
-            <span>📞 +971 50 123 4567</span>
-            <span>✉️ info@falcongarage.com</span>
-            <span className="font-bold">TRN: 10029394859</span>
-          </div>
-
-          {/* Client & Vehicle Meta Boxes */}
-          <div className="grid grid-cols-2 gap-8 mb-10">
-            <div className="border border-slate-200 rounded-lg p-5 bg-white shadow-sm">
-              <h3 className="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-3">Bill To</h3>
-              {selectedCustomer ? (
-                <div className="space-y-1">
-                  <p className="font-black text-slate-800 text-lg">{selectedCustomer.name}</p>
-                  <p className="text-sm text-slate-600 font-medium">Contact: {selectedCustomer.phone}</p>
+            {/* Partitioned Details Section */}
+            <div className="flex gap-10 mb-12 relative">
+              {/* Left: Client */}
+              <div className="flex-1 space-y-4">
+                <div>
+                  <h3 className="text-[9px] font-black text-amber-500 uppercase tracking-[0.2em] mb-2">Client Details</h3>
+                  <p className="text-lg font-black text-slate-800 leading-tight">
+                    {selectedCustomer ? selectedCustomer.name : "Valued Customer"}
+                  </p>
+                  <p className="text-xs font-bold text-slate-400 mt-1">
+                    Contact: {selectedCustomer?.phone || "N/A"}
+                  </p>
                 </div>
-              ) : (
-                <p className="text-sm italic text-rose-500">No client selected</p>
-              )}
-            </div>
-            <div className="border border-slate-200 rounded-lg p-5 bg-white shadow-sm">
-              <h3 className="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-3">Vehicle Details</h3>
-              {selectedVehicle ? (
-                <div className="space-y-1">
-                  <p className="font-black text-slate-800 text-lg tracking-wider">{selectedVehicle.vehicleNumber}</p>
-                  <p className="text-sm text-slate-600 font-medium">{selectedVehicle.make} {selectedVehicle.model} ({selectedVehicle.year})</p>
+                <div className="pt-2">
+                  <h3 className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Vehicle Asset</h3>
+                  <p className="text-sm font-black text-slate-700">
+                    {selectedVehicle ? `${selectedVehicle.vehicleNumber} (${selectedVehicle.model})` : "No vehicle assigned"}
+                  </p>
                 </div>
-              ) : (
-                <p className="text-sm italic text-rose-500">No vehicle selected</p>
-              )}
-            </div>
-          </div>
+              </div>
 
-          {/* Preview Table */}
-          <table className="w-full mb-8 border-collapse">
-            <thead>
-              <tr className="bg-slate-800 text-white">
-                <th className="py-3 px-4 text-center text-xs font-bold uppercase tracking-wider w-12 border border-slate-800">#</th>
-                <th className="py-3 px-4 text-left text-xs font-bold uppercase tracking-wider border border-slate-800">Service / Part Description</th>
-                <th className="py-3 px-4 text-center text-xs font-bold uppercase tracking-wider w-24 border border-slate-800">Qty</th>
-                <th className="py-3 px-4 text-right text-xs font-bold uppercase tracking-wider w-32 border border-slate-800">Rate (Rs)</th>
-                <th className="py-3 px-4 text-right text-xs font-bold uppercase tracking-wider w-32 border border-slate-800">Amount (Rs)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {quote.items.map((item, idx) => (
-                <tr key={idx} className="even:bg-slate-50">
-                  <td className="py-4 px-4 text-sm text-center text-slate-500 border border-slate-200">{idx + 1}</td>
-                  <td className="py-4 px-4 text-sm font-bold text-slate-800 border border-slate-200">{item.name || 'Unnamed Service'}</td>
-                  <td className="py-4 px-4 text-sm text-center border border-slate-200">{Number(item.qty)}</td>
-                  <td className="py-4 px-4 text-sm text-right border border-slate-200">{Number(item.price).toLocaleString()}</td>
-                  <td className="py-4 px-4 text-sm text-right font-black border border-slate-200">{(Number(item.qty) * Number(item.price)).toLocaleString()}</td>
+              {/* Vertical Partition */}
+              <div className="w-[2px] bg-amber-500/30 self-stretch rounded-full" />
+
+              {/* Right: Quotation Info */}
+              <div className="flex-1">
+                <h3 className="text-[9px] font-black text-amber-500 uppercase tracking-[0.2em] mb-3">Document Info</h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-xs border-b border-slate-100 pb-1">
+                    <span className="font-bold text-slate-400">Reference:</span>
+                    <span className="font-black text-slate-800">{quotationId ? `QTN-${quotationId.slice(-6).toUpperCase()}` : 'DRAFT-NEW'}</span>
+                  </div>
+                  <div className="flex justify-between text-xs border-b border-slate-100 pb-1">
+                    <span className="font-bold text-slate-400">Issued On:</span>
+                    <span className="font-bold text-slate-700">{new Date().toLocaleDateString('en-GB')}</span>
+                  </div>
+                  <div className="flex justify-between text-xs border-b border-slate-100 pb-1">
+                    <span className="font-bold text-slate-400">Valid For:</span>
+                    <span className="font-bold text-slate-700">07 Working Days</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Service Table */}
+            <table className="w-full mb-10 border-collapse">
+              <thead>
+                <tr className="bg-slate-800">
+                  <th className="py-3 px-4 text-center text-[10px] font-black text-white uppercase tracking-widest w-12 border-r border-slate-700">#</th>
+                  <th className="py-3 px-6 text-left text-[10px] font-black text-white uppercase tracking-widest">Service / Parts Description</th>
+                  <th className="py-3 px-4 text-center text-[10px] font-black text-white uppercase tracking-widest w-20">Qty</th>
+                  <th className="py-3 px-6 text-right text-[10px] font-black text-white uppercase tracking-widest w-32">Amount (QAR)</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {/* Preview Totals & Terms */}
-          <div className="flex justify-between items-start mt-12 pb-24">
-
-            {/* Terms */}
-            <div className="w-1/2 pr-8">
-              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Terms & Conditions</h4>
-              <ul className="text-[10px] text-slate-500 space-y-1 list-disc pl-4">
-                <li>Quotation is valid for 15 days from the date of issue.</li>
-                <li>Any additional parts required during repair will be charged separately upon approval.</li>
-                <li>Vehicles must be collected within 3 days of completion.</li>
-              </ul>
-
-              <div className="mt-16 pt-4 border-t border-slate-300 w-48 text-center">
-                <p className="text-xs font-bold text-slate-600">Authorized Signature</p>
-              </div>
-            </div>
-
-            {/* Financials */}
-            <div className="w-72 bg-slate-50 p-6 rounded-lg border border-slate-200">
-              <div className="space-y-3">
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-600 font-bold">Subtotal</span>
-                  <span className="font-medium">{totals.itemsTotal.toLocaleString()}</span>
-                </div>
+              </thead>
+              <tbody className="border-x border-b border-slate-100">
+                {quote.items.map((item, idx) => (
+                  <tr key={idx} className={idx % 2 === 0 ? "bg-white" : "bg-slate-50"}>
+                    <td className="py-4 px-4 text-xs text-center font-bold text-slate-400 border-r border-slate-100">{idx + 1}</td>
+                    <td className="py-4 px-6 text-sm font-bold text-slate-800">{item.name || 'Service Component'}</td>
+                    <td className="py-4 px-4 text-sm text-center font-medium text-slate-600">{item.qty}</td>
+                    <td className="py-4 px-6 text-sm text-right font-black text-slate-900">{(item.qty * item.price).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                  </tr>
+                ))}
                 {Number(quote.laborCost) > 0 && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-slate-600 font-bold">Labor Cost</span>
-                    <span className="font-medium">{Number(quote.laborCost).toLocaleString()}</span>
-                  </div>
+                  <tr className="bg-slate-50">
+                    <td className="py-4 px-4 text-xs text-center font-bold text-slate-400 border-r border-slate-100">{quote.items.length + 1}</td>
+                    <td className="py-4 px-6 text-sm font-bold text-slate-800 italic">Labor & Technical Service Charges</td>
+                    <td className="py-4 px-4 text-sm text-center font-medium text-slate-600">1</td>
+                    <td className="py-4 px-6 text-sm text-right font-black text-slate-900">{Number(quote.laborCost).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                  </tr>
                 )}
-                {Number(quote.gstPercent) > 0 && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-slate-600 font-bold">GST ({quote.gstPercent}%)</span>
-                    <span className="font-medium">{totals.gstAmount.toLocaleString()}</span>
-                  </div>
-                )}
-                {Number(quote.discount) > 0 && (
-                  <div className="flex justify-between text-sm text-emerald-600">
-                    <span className="font-bold">Discount</span>
-                    <span className="font-medium">- {Number(quote.discount).toLocaleString()}</span>
-                  </div>
-                )}
-                <div className="border-t-2 border-slate-800 pt-3 mt-3 flex justify-between items-end">
-                  <span className="font-black uppercase tracking-widest">Total Rs.</span>
-                  <span className="text-2xl font-black text-amber-500">{totals.grandTotal.toLocaleString()}</span>
+              </tbody>
+            </table>
+
+            {/* Footer Summary */}
+            <div className="flex justify-between items-end gap-10">
+              <div className="flex-1">
+                <h4 className="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-3">Service Terms</h4>
+                <ul className="text-[10px] text-slate-400 space-y-1.5 font-medium">
+                  <li className="flex gap-2"><span>•</span> Valid for 7 working days from issued date.</li>
+                  <li className="flex gap-2"><span>•</span> 50% advance required for special order parts.</li>
+                  <li className="flex gap-2"><span>•</span> Not responsible for items left in vehicles.</li>
+                </ul>
+              </div>
+
+              <div className="w-64 bg-slate-900 p-6 rounded-lg relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-1.5 h-full bg-amber-500" />
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Grand Total</span>
                 </div>
+                <div className="text-2xl font-black text-white tracking-tighter">
+                  QAR {totals.grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                </div>
+                <p className="text-[9px] font-bold text-amber-500 mt-1">VAT Inclusive ({quote.gstPercent}%)</p>
+              </div>
+            </div>
+
+            {/* Signature Area */}
+            <div className="mt-20 flex justify-between gap-20">
+              <div className="flex-1 border-t border-slate-100 pt-3 text-center">
+                <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Customer Acceptance</p>
+              </div>
+              <div className="flex-1 border-t border-slate-100 pt-3 text-center">
+                <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Authorized Signatory</p>
               </div>
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="absolute bottom-12 left-0 right-0 text-center px-12">
-            <div className="border-t border-slate-200 pt-4 flex justify-between items-center text-[10px] text-slate-400">
-              <span className="uppercase tracking-widest font-bold">Thank you for your business</span>
-              <span>System generated quotation - No physical signature required</span>
-            </div>
-          </div>
-
+          {/* Page Footer Accent */}
+          <div className="absolute bottom-0 left-0 right-0 h-8 bg-slate-800" />
+          <div className="absolute bottom-8 left-0 right-0 h-1 bg-amber-500" />
         </div>
       </div>
     );
-  }
+  };
 
   return (
     <div className="w-full">

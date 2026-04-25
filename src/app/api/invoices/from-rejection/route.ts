@@ -50,8 +50,10 @@ export async function POST(req: Request) {
     });
 
     // Update quotation status to track that it was billed for inspection
-    // We use findByIdAndUpdate with runValidators: false to bypass cached enum checks in dev mode
-    await Quotation.findByIdAndUpdate(quotationId, { status: "billed_inspection" }, { runValidators: false });
+    await Quotation.findByIdAndUpdate(quotationId, { 
+      status: "billed_inspection",
+      linkedInvoiceId: invoice._id 
+    }, { runValidators: false });
 
     return NextResponse.json({
       success: true,

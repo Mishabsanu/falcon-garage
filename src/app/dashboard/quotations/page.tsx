@@ -39,6 +39,7 @@ type QuotationListItem = {
   gstPercent?: number;
   status?: string;
   jobCardId?: string;
+  linkedInvoiceId?: string;
 };
 
 function getErrorMessage(error: unknown, fallback: string) {
@@ -338,6 +339,15 @@ export default function QuotationsPage() {
                             <ClipboardList size={14} className="text-[#f59e0b]" />
                             Job Card
                           </button>
+                        )}
+                        {quote.status === "billed_inspection" && quote.linkedInvoiceId && (
+                           <Link
+                             href={`/dashboard/invoices/${quote.linkedInvoiceId}`}
+                             className="inline-flex h-10 items-center gap-2 bg-emerald-600 px-3 text-[10px] font-black uppercase tracking-widest text-white transition-all hover:bg-emerald-700"
+                           >
+                             <Wallet size={14} />
+                             View Invoice
+                           </Link>
                         )}
                         {quote.status === "converted" && quote.jobCardId && (
                           <Link
