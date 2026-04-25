@@ -8,10 +8,11 @@ const VendorSchema = new mongoose.Schema(
     },
 
     phone: String,
-
     email: String,
-
     address: String,
+    contactPerson: String,
+    category: String,
+    gstNumber: String,
   },
   { timestamps: true },
 );

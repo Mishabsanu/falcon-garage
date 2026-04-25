@@ -57,7 +57,7 @@ export default function VendorForm({ mode, vendorId }: VendorFormProps) {
     e.preventDefault();
     setSaving(true);
     try {
-      const url = mode === "edit" ? `/api/vendors` : "/api/vendors/create";
+      const url = "/api/vendors";
       const method = mode === "edit" ? "PATCH" : "POST";
       const body = mode === "edit" ? { id: vendorId, ...formData } : formData;
 
