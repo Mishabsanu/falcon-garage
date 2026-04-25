@@ -8,9 +8,7 @@ import {
   Database,
   FileText,
   LayoutDashboard,
-  LogOut,
   Package,
-  Settings,
   ShieldCheck,
   ShoppingCart,
   Terminal,
@@ -82,7 +80,6 @@ const menuGroups = [
     items: [
       { name: "Staff Management", path: "/dashboard/staff", icon: Users },
       { name: "Workforce Payroll", path: "/dashboard/salaries", icon: Banknote },
-      { name: "System Config", path: "/dashboard/settings", icon: Settings },
     ],
   },
 ];

@@ -264,7 +264,7 @@ export default function NotificationsPage() {
                                <Clock size={10} /> {new Date(notification.createdAt).toLocaleDateString()} at {new Date(notification.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </span>
                          </div>
-                         <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                         <div className="flex items-center gap-2 transition-opacity">
                             <button 
                               onClick={() => deleteNotification(notification._id)}
                               className="p-2 text-slate-300 hover:text-rose-500 transition-colors"

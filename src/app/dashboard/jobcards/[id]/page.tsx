@@ -401,7 +401,7 @@ export default function JobCardDetailPage({ params }: { params: Promise<{ id: st
                               {i + 1}
                            </div>
                            <p className="text-xs font-bold text-[#64748b] flex-1">{c}</p>
-                           <button onClick={() => handleRemoveComplaint(i)} className="opacity-0 group-hover:opacity-100 p-1.5 text-rose-400 hover:text-rose-600 transition-all">
+                           <button onClick={() => handleRemoveComplaint(i)} className="p-1.5 text-rose-400 hover:text-rose-600 transition-all">
                               <Trash2 size={14} />
                            </button>
                         </div>

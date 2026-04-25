@@ -60,7 +60,7 @@ export default function PurchaseForm({ purchaseId }: PurchaseFormProps) {
           setFormData({
             vendorName: pData.data.vendorName,
             items: pData.data.items.map((i: any) => ({
-              partId: i.partId,
+              partId: i.partId?._id || i.partId,
               qty: i.qty,
               costPrice: i.costPrice
             }))

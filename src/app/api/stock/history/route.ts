@@ -2,10 +2,15 @@ import { connectDB } from "@/lib/mongodb";
 import StockTransaction from "@/models/StockTransaction";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     await connectDB();
-    const transactions = await StockTransaction.find()
+    const { searchParams } = new URL(req.url);
+    const referenceId = searchParams.get("referenceId");
+    
+    const query = referenceId ? { referenceId } : {};
+    
+    const transactions = await StockTransaction.find(query)
       .populate("partId", "name sku")
       .sort({ createdAt: -1 })
       .limit(100);

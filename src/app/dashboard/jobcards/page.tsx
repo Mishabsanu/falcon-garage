@@ -219,7 +219,7 @@ export default function JobCardsPage() {
                     </span>
                   </td>
                   <td className="px-8 py-6 text-right">
-                    <div className="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex items-center justify-end gap-3 transition-opacity">
                        {job.status === 'assigned' && (
                          <button 
                            onClick={(e) => { e.stopPropagation(); updateStatus(job._id, 'in_progress'); }}

@@ -172,7 +172,7 @@ export default function SalariesPage() {
                        </div>
                     </td>
                     <td className="px-8 py-6 text-right">
-                       <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                       <div className="flex items-center justify-end gap-2 transition-opacity">
                           <Link 
                             href={`/dashboard/salaries/${salary._id}/slip`}
                             className="p-2.5 rounded-md bg-[#263238] text-white hover:bg-[#64748b] transition-all"
